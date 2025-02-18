@@ -1,22 +1,19 @@
 name: Continuous Integration
-on: [push]
+on: [push]                      
 
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
+    runs-on: ubuntu-latest      
     
-    - name: Restore NuGet Packages
-      run: dotnet restore
+    steps:
+    - uses: actions/checkout@v4 
     
     - name: Build
       run: dotnet build
       
     - name: Test
-      run: dotnet test --logger "trx;LogFileName=test_results.trx"
+      run: dotnet test
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -24,7 +21,8 @@ jobs:
         node-version: '18'
         
     - name: Install Dependencies
-      run: npm ci
+      working-directory: ./DotnetTemplate.Web
+        run: npm install
         
     - name: Build TypeScript
       run: npm run build
