@@ -5,25 +5,10 @@ jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Build C#
-      run: dotnet build
-      
-    - name: Test C#
-      run: dotnet test
-      
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        
-    - name: Install and build TypeScript
-      working-directory: ./DotnetTemplate.Web
-      run: |
-        npm ci
-        npm run build
-        npm run lint
-        npm run test
+
+    - name: Hello world
+      uses: actions/hello-world-javascript-action@v1.1 # Name of the action. This uses https://github.com/actions/hello-world-javascript-action
+      with:                                            # This section is needed if you need to pass arguments to the action
+        who-to-greet: 'Mona the Octocat'
