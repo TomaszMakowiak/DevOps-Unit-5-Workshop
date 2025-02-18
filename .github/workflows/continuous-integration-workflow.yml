@@ -20,15 +20,22 @@ jobs:
       with:
         node-version: '18'
         
+     -name: Install dependencies (TypeScript)
+        working-directory: ./DotnetTemplate.Web
+        run: npm install
+
     - name: Install Dependencies
       working-directory: ./DotnetTemplate.Web
-        run: npm install
+      run: npm ci
         
     - name: Build TypeScript
+      working-directory: ./DotnetTemplate.Web
       run: npm run build
         
     - name: Lint TypeScript
+      working-directory: ./DotnetTemplate.Web
       run: npm run lint
         
     - name: Test TypeScript
+      working-directory: ./DotnetTemplate.Web
       run: npm run test
