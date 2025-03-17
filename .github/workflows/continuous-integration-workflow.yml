@@ -1,37 +1,42 @@
 name: Continuous Integration
-on: [push]                      
+on: [push]
 
 jobs:
-  build:
-    name: Build and test
-    runs-on: ubuntu-latest      
-    
+  dotnet-build:
+    name: .NET Build & Test
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4 
-    
-    - name: Build
-      run: dotnet build
+      - uses: actions/checkout@v4
       
-    - name: Test
-      run: dotnet test
+      - name: Build
+        run: dotnet build
+        
+      - name: Test
+        run: dotnet test
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+  typescript-build:
+    name: TypeScript Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        working-directory: ./DotnetTemplate.Web
+        run: npm ci
         
-    - name: Install Dependencies
-      working-directory: ./DotnetTemplate.Web
-      run: npm ci
+      - name: Build TypeScript
+        working-directory: ./DotnetTemplate.Web
+        run: npm run build
         
-    - name: Build TypeScript
-      working-directory: ./DotnetTemplate.Web
-      run: npm run build
+      - name: Lint TypeScript
+        working-directory: ./DotnetTemplate.Web
+        run: npm run lint
         
-    - name: Lint TypeScript
-      working-directory: ./DotnetTemplate.Web
-      run: npm run lint
-        
-    - name: Test TypeScript
-      working-directory: ./DotnetTemplate.Web
-      run: npm run test
+      - name: Test TypeScript
+        working-directory: ./DotnetTemplate.Web
+        run: npm run test
